@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard — InterviewAI</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body>
+
+<div class="app-shell" id="app-shell-root"></div>
+
+<template id="dashboard-content-template">
+  <div id="welcome-heading" class="mb-24">
+    <h2 style="margin-bottom:4px;">Welcome back 👋</h2>
+    <p class="text-muted">Here's how your preparation is going.</p>
+  </div>
+
+  <div class="stat-grid mb-24">
+    <div class="stat-card"><div class="stat-label">Interviews Completed</div><div class="stat-value" id="stat-interviews">—</div></div>
+    <div class="stat-card"><div class="stat-label">Avg Interview Score</div><div class="stat-value" id="stat-interview-score">—</div></div>
+    <div class="stat-card"><div class="stat-label">MCQs Completed</div><div class="stat-value" id="stat-quizzes">—</div></div>
+    <div class="stat-card"><div class="stat-label">Avg Quiz Score</div><div class="stat-value" id="stat-quiz-score">—</div></div>
+  </div>
+
+  <div class="grid-2 mb-24" style="grid-template-columns: 1fr 1fr;">
+    <a href="interview.html" class="card" style="display:flex; align-items:center; gap:16px; text-decoration:none;">
+      <div class="icon-badge" style="width:48px;height:48px;border-radius:12px;background:var(--accent-soft);color:var(--accent-dark);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;"><i class="fa-solid fa-comments"></i></div>
+      <div><h4 style="margin-bottom:2px;">Start AI Interview</h4><p class="text-muted" style="margin:0;font-size:0.85rem;">Practice a mock interview with AI feedback</p></div>
+    </a>
+    <a href="mcq.html" class="card" style="display:flex; align-items:center; gap:16px; text-decoration:none;">
+      <div class="icon-badge" style="width:48px;height:48px;border-radius:12px;background:var(--teal-soft);color:#0d7a70;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;"><i class="fa-solid fa-list-check"></i></div>
+      <div><h4 style="margin-bottom:2px;">Practice MCQs</h4><p class="text-muted" style="margin:0;font-size:0.85rem;">Test your knowledge across 13 categories</p></div>
+    </a>
+  </div>
+
+  <div class="card mb-24">
+    <div class="flex-between mb-16"><h3 style="margin:0;">Performance Overview</h3></div>
+    <div id="chart-empty" class="empty-state hidden" style="padding:30px 0;">
+      <i class="fa-solid fa-chart-line"></i>
+      <p>Complete an interview or quiz to see your performance chart here.</p>
+    </div>
+    <canvas id="performance-chart" height="90"></canvas>
+  </div>
+
+  <div class="grid-2" style="grid-template-columns: 1.3fr 1fr; align-items:start;">
+    <div class="card">
+      <div class="flex-between mb-16"><h3 style="margin:0;">Recent Interviews</h3><a href="history.html" style="font-size:0.85rem;">View all</a></div>
+      <div id="recent-interviews-wrap"><div class="loading-block"><span class="spinner"></span> Loading…</div></div>
+    </div>
+    <div class="card">
+      <div class="flex-between mb-16"><h3 style="margin:0;">Recent Quiz Results</h3><a href="mcq.html" style="font-size:0.85rem;">Practice more</a></div>
+      <div id="recent-quizzes-wrap"><div class="loading-block"><span class="spinner"></span> Loading…</div></div>
+    </div>
+  </div>
+</template>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Quiz Result — InterviewAI</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<style>
+  .result-hero { text-align:center; padding: 10px 0 22px; }
+  .result-hero .big-score { font-family: var(--font-heading); font-size: 3.2rem; font-weight:700; }
+  .perf-label { font-weight:700; }
+  .review-item { border:1px solid var(--border); border-radius: var(--radius-lg); padding:18px 20px; margin-bottom:12px; }
+  .review-item .rq-head { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:10px; }
+  .opt-row { display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; font-size:0.88rem; margin-bottom:4px; }
+  .opt-row.correct { background: var(--teal-soft); color:#0d7a70; font-weight:600; }
+  .opt-row.wrong { background: var(--red-soft); color:#b1272b; font-weight:600; }
+  .opt-letter-sm { width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.08);display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0; }
+</style>
+</head>
+<body>
+
+<div class="app-shell" id="app-shell-root"></div>
+
+<template id="quiz-result-template">
+  <div id="qr-empty" class="empty-state hidden">
+    <i class="fa-solid fa-list-check"></i>
+    <h3>No recent quiz result to show</h3>
+    <p>Take a quiz to see your results here.</p>
+    <a href="mcq.html" class="btn btn-primary mt-16">Practice MCQs</a>
+  </div>
+
+  <div id="qr-body" class="hidden">
+    <div class="card result-hero">
+      <p class="text-muted mb-8" style="margin:0;">Your Result</p>
+      <div class="big-score"><span id="qr-correct">0</span> / <span id="qr-total">0</span></div>
+      <p class="text-muted" style="margin-bottom:6px;"><span id="qr-percent">0</span>%</p>
+      <p class="perf-label" id="qr-perf-label"></p>
+    </div>
+
+    <div class="stat-grid mb-24">
+      <div class="stat-card"><div class="stat-label">Correct Answers</div><div class="stat-value" id="qr-stat-correct">0</div></div>
+      <div class="stat-card"><div class="stat-label">Wrong Answers</div><div class="stat-value" id="qr-stat-wrong">0</div></div>
+      <div class="stat-card"><div class="stat-label">Time Taken</div><div class="stat-value" id="qr-stat-time">0:00</div></div>
+      <div class="stat-card"><div class="stat-label">Accuracy</div><div class="stat-value" id="qr-stat-accuracy">0%</div></div>
+    </div>
+
+    <h3 class="mb-16">Question Review</h3>
+    <div id="qr-review-wrap"></div>
+
+    <div class="flex gap-12 mt-24">
+      <a href="mcq.html" class="btn btn-primary btn-lg">Practice Again</a>
+      <a href="dashboard.html" class="btn btn-secondary btn-lg">Back to Dashboard</a>
+    </div>
+  </div>
+</template>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/quiz-result.js"></script>
+</body>
+</html>

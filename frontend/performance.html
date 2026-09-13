@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Performance — InterviewAI</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<style>
+  .topic-pill { display:flex; justify-content:space-between; align-items:center; padding:10px 14px; border-radius: var(--radius-md); background: var(--paper); margin-bottom:8px; font-size:0.88rem; }
+</style>
+</head>
+<body>
+
+<div class="app-shell" id="app-shell-root"></div>
+
+<template id="performance-content-template">
+  <div class="stat-grid mb-24">
+    <div class="stat-card"><div class="stat-label">Total Interviews</div><div class="stat-value" id="perf-total-interviews">—</div></div>
+    <div class="stat-card"><div class="stat-label">Total Quizzes</div><div class="stat-value" id="perf-total-quizzes">—</div></div>
+    <div class="stat-card accent"><div class="stat-label">Avg Interview Score</div><div class="stat-value" id="perf-avg-interview">—</div></div>
+    <div class="stat-card accent"><div class="stat-label">Avg Quiz Score</div><div class="stat-value" id="perf-avg-quiz">—</div></div>
+  </div>
+
+  <div class="grid-2 mb-24" style="grid-template-columns: 1.4fr 1fr;">
+    <div class="card">
+      <h3 class="mb-16">Score Trends</h3>
+      <div id="trend-chart-empty" class="empty-state hidden" style="padding:30px 0;"><i class="fa-solid fa-chart-line"></i><p>No data yet — complete an interview or quiz.</p></div>
+      <canvas id="trend-chart" height="100"></canvas>
+    </div>
+    <div class="card">
+      <h3 class="mb-16">Technical vs Communication</h3>
+      <div id="radar-chart-empty" class="empty-state hidden" style="padding:30px 0;"><i class="fa-solid fa-chart-simple"></i><p>No interview data yet.</p></div>
+      <canvas id="dimension-chart" height="180"></canvas>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3 class="mb-16"><i class="fa-solid fa-arrow-trend-up" style="color:var(--teal);"></i> Strongest Topics</h3>
+      <div id="strongest-topics-wrap"></div>
+    </div>
+    <div class="card">
+      <h3 class="mb-16"><i class="fa-solid fa-arrow-trend-down" style="color:var(--amber);"></i> Weakest Topics</h3>
+      <div id="weakest-topics-wrap"></div>
+    </div>
+  </div>
+</template>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/performance.js"></script>
+</body>
+</html>

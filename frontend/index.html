@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>InterviewAI — Ace Your Next Interview with AI</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<style>
+  .hero {
+    padding: 64px 0 80px;
+    background: radial-gradient(circle at 82% 18%, rgba(91,95,239,0.10), transparent 55%), var(--paper);
+    overflow: hidden;
+  }
+  .hero-inner { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: center; }
+  .eyebrow-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-soft); color: var(--accent-dark);
+    padding: 7px 14px; border-radius: 999px; font-size: 0.82rem; font-weight: 600; margin-bottom: 20px;
+  }
+  .hero h1 { font-size: 3.1rem; max-width: 12ch; }
+  .hero p.lead { font-size: 1.12rem; max-width: 46ch; }
+  .hero-actions { display: flex; gap: 14px; margin-top: 30px; flex-wrap: wrap; }
+  .hero-stats { display: flex; gap: 32px; margin-top: 42px; }
+  .hero-stats div strong { display: block; font-family: var(--font-heading); font-size: 1.5rem; color: var(--text); }
+  .hero-stats div span { font-size: 0.8rem; color: var(--text-faint); }
+
+  .hero-panel {
+    background: var(--ink);
+    border-radius: var(--radius-xl);
+    padding: 30px;
+    color: #fff;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+  }
+  .hero-panel::before {
+    content: "";
+    position: absolute; inset: -40px -40px auto auto; width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(91,95,239,0.55), transparent 70%);
+    filter: blur(6px); z-index: 0;
+  }
+  .hero-panel-inner { position: relative; z-index: 1; }
+  .hero-chat-row { display: flex; gap: 10px; margin-bottom: 14px; }
+  .hero-chat-bubble { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 12px 14px; font-size: 0.85rem; color: #dcdcf5; max-width: 85%; }
+  .hero-chat-row.self { justify-content: flex-end; }
+  .hero-chat-row.self .hero-chat-bubble { background: var(--accent); color: #fff; }
+  .hero-score-card { background: rgba(255,255,255,0.06); border-radius: 14px; padding: 16px; margin-top: 18px; }
+  .hero-score-card .row { display: flex; justify-content: space-between; font-size: 0.82rem; color: #b7b9dd; margin-bottom: 8px; }
+  .hero-score-card .row strong { color: #fff; }
+  .mini-bar { height: 6px; border-radius: 999px; background: rgba(255,255,255,0.12); overflow: hidden; margin-top: 3px; }
+  .mini-bar span { display: block; height: 100%; background: var(--teal); border-radius: 999px; }
+
+  .logos-strip { padding: 22px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .logos-strip .container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 18px; color: var(--text-faint); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.02em; }
+
+  .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 40px; }
+  .feature-card { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px; background: var(--surface); }
+  .feature-card .icon-badge {
+    width: 44px; height: 44px; border-radius: 12px; background: var(--accent-soft); color: var(--accent-dark);
+    display: flex; align-items: center; justify-content: center; font-size: 1.1rem; margin-bottom: 16px;
+  }
+  .feature-card:nth-child(3n+2) .icon-badge { background: var(--teal-soft); color: #0d7a70; }
+  .feature-card:nth-child(3n) .icon-badge { background: var(--amber-soft); color: #a35c14; }
+
+  .steps { counter-reset: step; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 44px; }
+  .step-item { position: relative; padding-top: 8px; }
+  .step-number { font-family: var(--font-heading); font-weight: 700; font-size: 1.9rem; color: var(--accent); margin-bottom: 10px; }
+
+  .mcq-strip { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+  .mcq-chip { background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 8px 16px; font-size: 0.84rem; font-weight: 600; color: var(--text-muted); }
+
+  .cta-band {
+    background: var(--ink); color: #fff; border-radius: var(--radius-xl); padding: 56px 48px;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+  }
+  .cta-band h2 { color: #fff; margin-bottom: 6px; }
+  .cta-band p { color: #b7b9dd; margin: 0; }
+
+  footer { border-top: 1px solid var(--border); padding: 32px 0; }
+  footer .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  footer p { margin: 0; font-size: 0.85rem; }
+
+  @media (max-width: 980px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2.3rem; max-width: none; }
+    .feature-grid, .steps { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .feature-grid, .steps { grid-template-columns: 1fr; }
+    .hero-stats { flex-wrap: wrap; row-gap: 16px; }
+    .cta-band { padding: 36px 26px; flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="public-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand"><span class="brand-mark"><i class="fa-solid fa-brain"></i></span>InterviewAI</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="mcq.html">MCQ Practice</a></li>
+      <li><a href="interview.html">AI Interview</a></li>
+      <li><a href="index.html#how-it-works">How It Works</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-ghost btn-sm">Login</a>
+      <a href="signup.html" class="btn btn-primary btn-sm">Get Started</a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle"><i class="fa-solid fa-bars"></i></button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container hero-inner">
+    <div>
+      <span class="eyebrow-pill"><i class="fa-solid fa-sparkles"></i> AI-powered interview coaching</span>
+      <h1>Ace Your Next Interview with AI</h1>
+      <p class="lead">Practice interviews, test your technical knowledge, receive AI-powered feedback, and improve your confidence before the real interview.</p>
+      <div class="hero-actions">
+        <a href="interview.html" class="btn btn-primary btn-lg">Start AI Interview</a>
+        <a href="mcq.html" class="btn btn-secondary btn-lg">Practice MCQs</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>120+</strong><span>MCQ questions</span></div>
+        <div><strong>13</strong><span>tech categories</span></div>
+        <div><strong>6</strong><span>scoring dimensions</span></div>
+      </div>
+    </div>
+    <div class="hero-panel">
+      <div class="hero-panel-inner">
+        <div class="hero-chat-row">
+          <div class="hero-chat-bubble">Explain the difference between a list and a tuple in Python.</div>
+        </div>
+        <div class="hero-chat-row self">
+          <div class="hero-chat-bubble">A list is mutable and can change size, a tuple is fixed once created…</div>
+        </div>
+        <div class="hero-score-card">
+          <div class="row"><span>Technical Knowledge</span><strong>84%</strong></div>
+          <div class="mini-bar"><span style="width:84%;"></span></div>
+          <div class="row" style="margin-top:12px;"><span>Communication</span><strong>78%</strong></div>
+          <div class="mini-bar"><span style="width:78%; background: var(--accent);"></span></div>
+          <div class="row" style="margin-top:12px;"><span>Overall Score</span><strong>82/100</strong></div>
+          <div class="mini-bar"><span style="width:82%;"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="logos-strip">
+  <div class="container">
+    <span>PYTHON</span><span>JAVA</span><span>WEB DEVELOPMENT</span><span>SQL</span><span>CYBERSECURITY</span><span>DATA STRUCTURES</span>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="container">
+    <h2>Everything you need to walk in prepared</h2>
+    <p>One platform for mock interviews, technical quizzes, and the analytics that show you exactly where to focus.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="icon-badge"><i class="fa-solid fa-comments"></i></div>
+        <h3>AI Mock Interviews</h3>
+        <p>Choose HR, Technical, Behavioral, Coding, or Resume-based interviews tailored to your role and difficulty level.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-badge"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+        <h3>Instant AI Feedback</h3>
+        <p>Every answer is scored on relevance, technical knowledge, accuracy, communication, clarity, and confidence.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-badge"><i class="fa-solid fa-list-check"></i></div>
+        <h3>120+ MCQ Questions</h3>
+        <p>Practice Python, Java, Web Development, SQL, Cybersecurity, Data Structures and more, with instant scoring.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-badge"><i class="fa-solid fa-file-arrow-up"></i></div>
+        <h3>Resume-Based Questions</h3>
+        <p>Upload your resume and get interview questions generated specifically from your skills and projects.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-badge"><i class="fa-solid fa-chart-line"></i></div>
+        <h3>Performance Analytics</h3>
+        <p>Track your score trends over time and see exactly which topics are your strongest and weakest.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon-badge"><i class="fa-solid fa-shield-halved"></i></div>
+        <h3>Works Without an API Key</h3>
+        <p>A built-in fallback mode means you can practice MCQs and mock interviews before you even configure AI.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="how-it-works" style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="container">
+    <h2>How it works</h2>
+    <p>From sign-up to your first feedback report in under two minutes.</p>
+    <div class="steps">
+      <div class="step-item"><div class="step-number">01</div><h4>Create your account</h4><p>Sign up in seconds — no credit card required.</p></div>
+      <div class="step-item"><div class="step-number">02</div><h4>Pick your practice</h4><p>Choose an AI mock interview or jump into an MCQ quiz.</p></div>
+      <div class="step-item"><div class="step-number">03</div><h4>Answer & get scored</h4><p>Submit your answers and receive detailed AI feedback instantly.</p></div>
+      <div class="step-item"><div class="step-number">04</div><h4>Track your growth</h4><p>Review your performance dashboard and focus on weak areas.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>Practice categories</h2>
+    <p>Randomized questions across every core interview topic, with difficulty levels for every stage of preparation.</p>
+    <div class="mcq-strip">
+      <span class="mcq-chip">Python</span><span class="mcq-chip">Java</span><span class="mcq-chip">C/C++</span>
+      <span class="mcq-chip">Data Structures</span><span class="mcq-chip">Algorithms</span><span class="mcq-chip">HTML</span>
+      <span class="mcq-chip">CSS</span><span class="mcq-chip">JavaScript</span><span class="mcq-chip">SQL</span>
+      <span class="mcq-chip">Database</span><span class="mcq-chip">Cybersecurity</span><span class="mcq-chip">Computer Networks</span>
+      <span class="mcq-chip">Operating Systems</span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="cta-band">
+      <div>
+        <h2>Ready to practice your next interview?</h2>
+        <p>Start free — your first AI interview takes less than five minutes.</p>
+      </div>
+      <a href="signup.html" class="btn btn-primary btn-lg">Get Started Free</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <a href="index.html" class="brand"><span class="brand-mark"><i class="fa-solid fa-brain"></i></span>InterviewAI</a>
+    <p class="text-muted">&copy; 2026 InterviewAI. A portfolio project for interview preparation.</p>
+  </div>
+</footer>
+
+</body>
+</html>

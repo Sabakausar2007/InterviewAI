@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Resume — InterviewAI</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<style>
+  .dropzone { border:2px dashed var(--border-strong); border-radius: var(--radius-xl); padding:44px 24px; text-align:center; cursor:pointer; transition: all 0.15s ease; }
+  .dropzone:hover, .dropzone.dragover { border-color: var(--accent); background: var(--accent-soft); }
+  .dropzone i { font-size:2.2rem; color: var(--accent); margin-bottom:12px; }
+  .resume-item { border:1px solid var(--border); border-radius: var(--radius-lg); padding:20px; margin-bottom:14px; }
+  .resume-item .rh { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .tag-list { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+  .info-block { margin-bottom:12px; }
+  .info-block .lbl { font-size:0.76rem; font-weight:700; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.03em; margin-bottom:4px; }
+</style>
+</head>
+<body>
+
+<div class="app-shell" id="app-shell-root"></div>
+
+<template id="resume-content-template">
+  <div class="grid-2" style="grid-template-columns: 0.9fr 1.1fr; align-items:start;">
+    <div class="card">
+      <h3 class="mb-8">Upload Resume</h3>
+      <p class="text-muted mb-16">PDF or DOCX, up to 5MB. We'll extract your skills, education, projects and experience.</p>
+      <div class="dropzone" id="dropzone">
+        <i class="fa-solid fa-file-arrow-up"></i>
+        <p style="margin:0;font-weight:600;color:var(--text);">Drop your resume here</p>
+        <p class="text-muted" style="margin:4px 0 0;font-size:0.85rem;">or click to browse</p>
+        <input type="file" id="resume-input" accept=".pdf,.docx" style="display:none;" />
+      </div>
+      <div id="upload-progress" class="hidden mt-16">
+        <div class="loading-block" style="padding:10px 0;"><span class="spinner"></span> Analyzing resume with AI…</div>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="mb-16">Your Resumes</h3>
+      <div id="resume-list-wrap"><div class="loading-block"><span class="spinner"></span> Loading…</div></div>
+    </div>
+  </div>
+</template>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/resume.js"></script>
+</body>
+</html>

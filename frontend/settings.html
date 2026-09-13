@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Settings — InterviewAI</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<style>
+  .theme-options { display:flex; gap:12px; }
+  .theme-card { flex:1; border:1.5px solid var(--border-strong); border-radius: var(--radius-md); padding:16px; text-align:center; cursor:pointer; font-weight:600; }
+  .theme-card.selected { border-color: var(--accent); background: var(--accent-soft); color: var(--accent-dark); }
+</style>
+</head>
+<body>
+
+<div class="app-shell" id="app-shell-root"></div>
+
+<template id="settings-content-template">
+  <div class="grid-2" style="grid-template-columns: 1fr 1fr; align-items:start;">
+
+    <div class="card">
+      <h3 class="mb-16">Interview Preferences</h3>
+      <form id="preferences-form">
+        <div class="field">
+          <label for="default_interview_type">Default Interview Type</label>
+          <select id="default_interview_type">
+            <option value="HR">HR</option>
+            <option value="Technical">Technical</option>
+            <option value="Behavioral">Behavioral</option>
+            <option value="Coding">Coding</option>
+            <option value="Resume Based">Resume Based</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="default_difficulty">Default Difficulty</label>
+          <select id="default_difficulty">
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Theme</label>
+          <div class="theme-options" id="theme-options">
+            <div class="theme-card" data-value="light"><i class="fa-solid fa-sun"></i> Light</div>
+            <div class="theme-card" data-value="dark"><i class="fa-solid fa-moon"></i> Dark</div>
+          </div>
+          <div class="hint">Dark mode styling will apply across the app in a future update.</div>
+        </div>
+        <button type="submit" class="btn btn-primary" id="preferences-save-btn">Save Preferences</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3 class="mb-16">Account Settings</h3>
+      <form id="password-form">
+        <div class="field">
+          <label for="current_password">Current Password</label>
+          <input type="password" id="current_password" required />
+        </div>
+        <div class="field">
+          <label for="new_password">New Password</label>
+          <input type="password" id="new_password" required minlength="6" />
+          <div class="hint">At least 6 characters.</div>
+        </div>
+        <button type="submit" class="btn btn-secondary" id="password-save-btn">Change Password</button>
+      </form>
+
+      <div class="mt-24" style="border-top:1px solid var(--border); padding-top:20px;">
+        <h4 class="mb-8">Logout</h4>
+        <p class="text-muted" style="font-size:0.85rem;">End your current session on this device.</p>
+        <button class="btn btn-danger" id="logout-btn">Logout</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/settings.js"></script>
+</body>
+</html>

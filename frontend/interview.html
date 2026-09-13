@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Interview — InterviewAI</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<style>
+  .interview-stage { max-width: 780px; margin: 0 auto; }
+  .interviewer-row { display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+  .interviewer-avatar { width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem; }
+  .question-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-xl); padding:30px; margin-bottom:20px; }
+  .question-meta { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-size:0.82rem; color:var(--text-muted); font-weight:600; }
+  .question-text { font-family: var(--font-heading); font-size:1.3rem; font-weight:600; line-height:1.4; }
+  .answer-actions { display:flex; justify-content:space-between; align-items:center; margin-top:14px; flex-wrap:wrap; gap:10px; }
+  .mic-btn.recording { background: var(--red); color:#fff; border-color: var(--red); }
+  .eval-score-ring { width:110px;height:110px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-direction:column; background: conic-gradient(var(--accent) calc(var(--pct) * 1%), var(--border) 0); margin: 0 auto 18px; }
+  .eval-score-ring .inner { width:86px;height:86px;border-radius:50%;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center; }
+  .eval-score-ring .inner strong { font-family: var(--font-heading); font-size:1.6rem; }
+  .eval-score-ring .inner span { font-size:0.7rem; color:var(--text-faint); }
+  .sub-scores { display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin: 18px 0; }
+  .sub-score-item { text-align:center; }
+  .sub-score-item .label { font-size:0.72rem; color:var(--text-muted); margin-bottom:6px; }
+  .sub-score-item .val { font-weight:700; font-family: var(--font-heading); }
+  .feedback-cols { display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-top:20px; }
+  .feedback-list { list-style:none; padding:0; margin:0; }
+  .feedback-list li { padding:8px 0 8px 26px; position:relative; font-size:0.88rem; color:var(--text); border-bottom:1px solid var(--border); }
+  .feedback-list li:last-child { border-bottom:none; }
+  .feedback-list.strengths li::before { content:"\f00c"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--teal); position:absolute; left:0; }
+  .feedback-list.weaknesses li::before { content:"\f06a"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--amber); position:absolute; left:0; }
+  @media (max-width: 700px) { .feedback-cols { grid-template-columns: 1fr; } .sub-scores { grid-template-columns: repeat(2,1fr); } }
+</style>
+</head>
+<body>
+
+<div class="app-shell" id="app-shell-root"></div>
+
+<template id="interview-content-template">
+
+  <!-- ================= SETUP PANEL ================= -->
+  <div id="panel-setup" class="interview-stage">
+    <div class="card">
+      <h3 class="mb-8">Set up your mock interview</h3>
+      <p class="text-muted mb-24">Choose the type, role, and difficulty. Questions are generated based on your selection.</p>
+
+      <div class="field">
+        <label>Interview Type</label>
+        <div class="radio-cards" id="type-options">
+          <div class="radio-card" data-value="HR">HR</div>
+          <div class="radio-card" data-value="Technical">Technical</div>
+          <div class="radio-card" data-value="Behavioral">Behavioral</div>
+          <div class="radio-card" data-value="Coding">Coding</div>
+          <div class="radio-card" data-value="Resume Based">Resume Based</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="job-role-select">Job Role</label>
+        <select id="job-role-select">
+          <option value="Python Developer">Python Developer</option>
+          <option value="Java Developer">Java Developer</option>
+          <option value="Web Developer">Web Developer</option>
+          <option value="Software Developer">Software Developer</option>
+          <option value="Data Analyst">Data Analyst</option>
+          <option value="Cybersecurity">Cybersecurity</option>
+          <option value="Custom">Custom…</option>
+        </select>
+      </div>
+      <div class="field hidden" id="custom-role-field">
+        <label for="custom-role-input">Custom Job Role</label>
+        <input type="text" id="custom-role-input" placeholder="e.g. DevOps Engineer" />
+      </div>
+
+      <div class="field hidden" id="resume-field">
+        <label for="resume-select">Which resume should questions be based on?</label>
+        <select id="resume-select"></select>
+        <div class="hint">No resumes yet? <a href="resume.html">Upload one first</a>.</div>
+      </div>
+
+      <div class="input-row">
+        <div class="field">
+          <label>Difficulty</label>
+          <div class="radio-cards" id="difficulty-options">
+            <div class="radio-card" data-value="Easy">Easy</div>
+            <div class="radio-card" data-value="Medium">Medium</div>
+            <div class="radio-card" data-value="Hard">Hard</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Number of Questions</label>
+          <div class="radio-cards" id="count-options">
+            <div class="radio-card" data-value="5">5</div>
+            <div class="radio-card" data-value="10">10</div>
+            <div class="radio-card" data-value="15">15</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-lg btn-block mt-16" id="start-interview-btn">Start Interview</button>
+    </div>
+  </div>
+
+  <!-- ================= INTERVIEW PANEL ================= -->
+  <div id="panel-interview" class="interview-stage hidden">
+    <div class="interviewer-row">
+      <div class="interviewer-avatar"><i class="fa-solid fa-robot"></i></div>
+      <div><strong>AI Interviewer</strong><div class="text-muted" style="font-size:0.8rem;" id="interview-context-label"></div></div>
+    </div>
+
+    <div class="flex-between mb-8">
+      <span class="text-muted" style="font-size:0.85rem;font-weight:600;" id="question-counter">Question 1 / 5</span>
+      <span class="timer-pill" id="question-timer"><i class="fa-regular fa-clock"></i> 00:00</span>
+    </div>
+    <div class="progress-track mb-24"><div class="progress-fill" id="interview-progress" style="width:0%;"></div></div>
+
+    <div class="question-card">
+      <div class="question-text" id="question-text">Loading question…</div>
+    </div>
+
+    <div class="card">
+      <label for="answer-box" style="font-weight:600;font-size:0.88rem;display:block;margin-bottom:10px;">Your Answer</label>
+      <textarea id="answer-box" placeholder="Type your answer here, or use the mic to dictate it…" rows="7"></textarea>
+      <div class="answer-actions">
+        <button class="btn btn-secondary mic-btn" id="mic-btn"><i class="fa-solid fa-microphone"></i> Record Answer</button>
+        <div class="flex gap-8">
+          <button class="btn btn-ghost" id="end-interview-btn">End Interview</button>
+          <button class="btn btn-primary" id="submit-answer-btn">Submit Answer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= EVALUATION PANEL ================= -->
+  <div id="panel-evaluation" class="interview-stage hidden">
+    <div class="card">
+      <div class="eval-score-ring" id="eval-score-ring" style="--pct:0;">
+        <div class="inner"><strong id="eval-score-value">0</strong><span>OVERALL</span></div>
+      </div>
+      <div class="sub-scores">
+        <div class="sub-score-item"><div class="label">Relevance</div><div class="val" id="eval-relevance">0</div></div>
+        <div class="sub-score-item"><div class="label">Technical</div><div class="val" id="eval-technical">0</div></div>
+        <div class="sub-score-item"><div class="label">Accuracy</div><div class="val" id="eval-accuracy">0</div></div>
+        <div class="sub-score-item"><div class="label">Communication</div><div class="val" id="eval-communication">0</div></div>
+        <div class="sub-score-item"><div class="label">Clarity</div><div class="val" id="eval-clarity">0</div></div>
+        <div class="sub-score-item"><div class="label">Confidence</div><div class="val" id="eval-confidence">0</div></div>
+      </div>
+
+      <div class="feedback-cols">
+        <div>
+          <h4>Strengths</h4>
+          <ul class="feedback-list strengths" id="eval-strengths"></ul>
+        </div>
+        <div>
+          <h4>Improve</h4>
+          <ul class="feedback-list weaknesses" id="eval-weaknesses"></ul>
+        </div>
+      </div>
+
+      <div class="card mt-24" style="background:var(--paper);">
+        <h4>Suggested Improved Answer</h4>
+        <p id="eval-improved" style="margin:0;"></p>
+      </div>
+
+      <button class="btn btn-primary btn-lg btn-block mt-24" id="continue-interview-btn">Continue Interview</button>
+    </div>
+  </div>
+
+  <!-- ================= LOADING OVERLAY ================= -->
+  <div id="interview-loading" class="loading-block hidden"><span class="spinner"></span> Working on it…</div>
+
+</template>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/interview.js"></script>
+</body>
+</html>

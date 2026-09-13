@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Profile — InterviewAI</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body>
+
+<div class="app-shell" id="app-shell-root"></div>
+
+<template id="profile-content-template">
+  <div class="card" style="max-width:620px;">
+    <div class="flex gap-16 mb-24" style="align-items:center;">
+      <div class="avatar" id="profile-avatar" style="width:60px;height:60px;font-size:1.3rem;">--</div>
+      <div>
+        <h3 style="margin-bottom:2px;" id="profile-name-display">—</h3>
+        <p class="text-muted" style="margin:0;" id="profile-email-display">—</p>
+      </div>
+    </div>
+
+    <form id="profile-form">
+      <div class="field">
+        <label for="full_name">Full Name</label>
+        <input type="text" id="full_name" />
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" disabled />
+        <div class="hint">Email cannot be changed.</div>
+      </div>
+      <div class="field">
+        <label for="education">Education</label>
+        <input type="text" id="education" placeholder="e.g. B.Tech Computer Science" />
+      </div>
+      <div class="field">
+        <label for="skills">Skills</label>
+        <textarea id="skills" rows="3" placeholder="e.g. Python, FastAPI, MySQL, React"></textarea>
+      </div>
+      <div class="field">
+        <label for="target_role">Target Job Role</label>
+        <input type="text" id="target_role" placeholder="e.g. Backend Developer" />
+      </div>
+      <button type="submit" class="btn btn-primary" id="profile-save-btn">Save Changes</button>
+    </form>
+  </div>
+</template>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/profile.js"></script>
+</body>
+</html>

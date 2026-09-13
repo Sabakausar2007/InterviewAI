@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin Dashboard — InterviewAI</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<style>
+  .admin-toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:16px; flex-wrap:wrap; }
+  .admin-search { max-width:280px; }
+  .pagination { display:flex; justify-content:flex-end; align-items:center; gap:10px; padding:14px 18px; font-size:0.85rem; color:var(--text-muted); }
+</style>
+</head>
+<body>
+
+<div class="app-shell" id="app-shell-root"></div>
+
+<template id="admin-content-template">
+  <div class="stat-grid mb-24">
+    <div class="stat-card"><div class="stat-label">Total Users</div><div class="stat-value" id="admin-total-users">—</div></div>
+    <div class="stat-card"><div class="stat-label">Total Interviews</div><div class="stat-value" id="admin-total-interviews">—</div></div>
+    <div class="stat-card"><div class="stat-label">Total Quizzes</div><div class="stat-value" id="admin-total-quizzes">—</div></div>
+    <div class="stat-card accent"><div class="stat-label">Avg Score (Interviews)</div><div class="stat-value" id="admin-avg-interview">—</div></div>
+    <div class="stat-card accent"><div class="stat-label">Avg Score (Quizzes)</div><div class="stat-value" id="admin-avg-quiz">—</div></div>
+    <div class="stat-card"><div class="stat-label">MCQ Questions</div><div class="stat-value" id="admin-total-mcq">—</div></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="users">Users</button>
+    <button class="tab-btn" data-tab="interviews">Interviews</button>
+    <button class="tab-btn" data-tab="mcq">MCQ Questions</button>
+  </div>
+
+  <!-- USERS TAB -->
+  <div id="tab-users" class="admin-tab">
+    <div class="admin-toolbar">
+      <input type="search" class="admin-search" id="user-search" placeholder="Search by name or email…" />
+    </div>
+    <div class="card card-flush">
+      <div id="users-table-wrap"><div class="loading-block"><span class="spinner"></span> Loading users…</div></div>
+      <div class="pagination" id="users-pagination"></div>
+    </div>
+  </div>
+
+  <!-- INTERVIEWS TAB -->
+  <div id="tab-interviews" class="admin-tab hidden">
+    <div class="card card-flush">
+      <div id="interviews-table-wrap"><div class="loading-block"><span class="spinner"></span> Loading interviews…</div></div>
+      <div class="pagination" id="interviews-pagination"></div>
+    </div>
+  </div>
+
+  <!-- MCQ TAB -->
+  <div id="tab-mcq" class="admin-tab hidden">
+    <div class="admin-toolbar">
+      <select id="mcq-category-filter" class="admin-search">
+        <option value="">All categories</option>
+        <option>Python</option><option>Java</option><option>Data Structures</option>
+        <option>Web Development</option><option>SQL</option><option>Cybersecurity</option>
+      </select>
+    </div>
+    <div class="card card-flush">
+      <div id="mcq-table-wrap"><div class="loading-block"><span class="spinner"></span> Loading questions…</div></div>
+      <div class="pagination" id="mcq-pagination"></div>
+    </div>
+  </div>
+</template>
+
+<script src="assets/js/api.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>
